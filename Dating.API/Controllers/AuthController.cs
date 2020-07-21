@@ -54,6 +54,9 @@ namespace Dating.API.Controllers
 
         public async Task<IActionResult> Login(UserLoginDtos userLoginDtos)
         {
+            // try{
+            //        throw new Exception("Computer says No");
+
             var userFromRepo = await _repo.Login(userLoginDtos.Username.ToLower(), userLoginDtos.Password);
             
             if (userFromRepo == null)
@@ -83,6 +86,11 @@ namespace Dating.API.Controllers
             return Ok(new {
             token = tokenHandler.WriteToken(token)
             });
+
+            // } catch {
+            //    return StatusCode(500, "Computer Exception");
+            // }
+         
         //     public async Task<IActionResult> Login(UserLoginDtos userForLoginDto)
         // {
         //     var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);

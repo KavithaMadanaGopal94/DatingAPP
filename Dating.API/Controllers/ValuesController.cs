@@ -21,6 +21,7 @@ namespace Dating.API.Controllers
 
         }
         // GET api/values
+        [AllowAnonymous]
         [HttpGet]
          public async Task<IActionResult> GetValues()
         {
@@ -32,7 +33,7 @@ namespace Dating.API.Controllers
         //     // throw new Exception("Test exception");
         //     return new string[] { "value1", "value3" };
         // }
-
+ 
         // GET api/values/5
         [AllowAnonymous]
         [HttpGet("{id}")]
