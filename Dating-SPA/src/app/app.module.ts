@@ -16,6 +16,7 @@ import { ErrorInterceptorProvider } from './_service/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 // import { BsDropdownModule } from 'ngx-bootstrap';
 
 import { ListsComponent } from './lists/lists.component';
@@ -28,6 +29,8 @@ import { AlertifyService } from './_service/alertify.service';
 import { UserService } from './_service/user.service';
 import { MemberDetailResolver } from './_resolver/member-detail.resolver';
 import { MemberListResolver } from './_resolver/member-list.resolver';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -44,7 +47,8 @@ export function tokenGetter() {
       MessagesComponent,
       MemberListComponent,
       MemberCardComponent,
-      MemberDetailComponent
+      MemberDetailComponent,
+      MemberEditComponent
    ],
    imports: [
       BrowserModule,
@@ -54,6 +58,7 @@ export function tokenGetter() {
       BsDropdownModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       TabsModule.forRoot(),
+      NgxGalleryModule,
       JwtModule.forRoot({
          config: {
            tokenGetter: tokenGetter,
