@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Dating.API.Data;
 using Dating.API.Dtos;
 using Dating.API.Models;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+
 
 namespace Dating.API.Controllers
 {
@@ -20,8 +22,11 @@ namespace Dating.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        private readonly IMapper _mapper;
+        
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
         {
+            _mapper = mapper;
             _config = config;
             _repo = repo;
 
@@ -35,19 +40,21 @@ namespace Dating.API.Controllers
             //VAlidate request
             userRegisterDtos.Username = userRegisterDtos.Username.ToLower();
 
+            Console.WriteLine(userRegisterDtos);
+            Console.WriteLine("USERRR");
+
             if (await _repo.UserExists(userRegisterDtos.Username))
-                return BadRequest("User Exists");
+                return BadRequest("User already exists");
 
             // return (IAuthRepository)BadRequest();
 
-            var userToCreate = new User
-            {
-                Username = userRegisterDtos.Username
-            };
-
+            var userToCreate = _mapper.Map<User>(userRegisterDtos);
+            
             var createdUser = await _repo.Register(userToCreate, userRegisterDtos.Password);
+            
+            var userToReturn = _mapper.Map<UserForDetailedDtos>(createdUser);
 
-            return StatusCode(201);
+            return CreatedAtRoute("GetUser", new {controller = "Users", id = createdUser.Id}, userToReturn);
         }
 
         [HttpPost("login")]
@@ -83,8 +90,10 @@ namespace Dating.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            var user = _mapper.Map<UserForListDtos>(userFromRepo);
+
             return Ok(new {
-            token = tokenHandler.WriteToken(token)
+            token = tokenHandler.WriteToken(token),user
             });
 
             // } catch {
