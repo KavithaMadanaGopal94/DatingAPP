@@ -54,6 +54,7 @@ namespace Dating.API
                  ValidateAudience = false
                 };
             });
+            services.AddScoped<LogUsersActivity>();
             
         }
 

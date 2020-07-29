@@ -1,15 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Dating.API.Data;
 using Dating.API.Dtos;
+using Dating.API.Helpers;
+using Dating.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System;
+
 
 namespace Dating.API.Controllers
 {
+    [ServiceFilter(typeof(LogUsersActivity))]
+
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

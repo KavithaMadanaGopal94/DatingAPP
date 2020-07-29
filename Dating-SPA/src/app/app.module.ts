@@ -4,7 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { TimeagoModule } from 'ngx-timeago';
 
 
 import { AppComponent } from './app.component';
@@ -69,6 +69,7 @@ export function tokenGetter() {
       TabsModule.forRoot(),
       NgxGalleryModule,
       FileUploadModule,
+      TimeagoModule.forRoot(),
       ReactiveFormsModule,
       JwtModule.forRoot({
          config: {
